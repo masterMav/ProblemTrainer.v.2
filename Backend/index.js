@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const colors = require("colors");
+const cors = require("cors");
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,11 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); //previous .static("public")
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
 // Routes
 app.use(userRoutes);
