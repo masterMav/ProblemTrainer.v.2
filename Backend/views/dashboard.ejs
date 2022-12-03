@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body class="bg-light">
+    <nav class="shadow lead navbar navbar-light">
+      <div class="container">
+        <a class="navbar-brand ms-5" href="#">
+          <h1 id="main-heading">Problem Trainer</h1>
+        </a>
+      </div>
+    </nav>
+
+    <% if(invalidUrl === "1") { %>
+    <div class="alert alert-danger" role="alert">
+      INVALID PROBLEM CODE: Please enter correct problem code.
+    </div>
+    <% } else if(invalidUrl === "2") { %>
+    <div class="alert alert-danger" role="alert">
+      CF API ERROR: This error is on CodeForces end & we cannot function until
+      the CF API is active again.
+    </div>
+    <% } else if(invalidUrl === "3") { %>
+    <div class="alert alert-danger" role="alert">
+      This Problem is already present in the list.
+    </div>
+    <% } %>
+
+    <section>
+      <div class="lead container-lg text-center mt-2">
+        <h2>Welcome <%=handle%></h2>
+
+        <!-- Add List Item -->
+
+        <form
+          class="mt-5 problemLink-form"
+          action="/users/<%=handle%>"
+          method="POST"
+        >
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter ContestId_index of CF problem"
+              name="problemCode"
+              required
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="submit"
+              id="button-addon2"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+
+        <!-- Table: List all problems -->
+        <div class="mt-5 px-lg-5 mx-lg-5">
+          <% if(qns.length > 0) {%>
+
+          <table class="table shadow">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" width="10%">#</th>
+                <th scope="col" width="60%">Problem Names</th>
+                <th scope="col" width="25%">Verdict</th>
+                <th scope="col" width="5%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i = 0; i < qns.length; i++) { %>
+
+              <tr id="table-row" class="trow-<%=qns[i].verdict%>">
+                <th
+                  scope="row"
+                  onClick="window.open('<%= qns[i].problemLink %>', '_blank')"
+                >
+                  <%= i + 1 %>
+                </th>
+                <td
+                  onClick="window.open('<%= qns[i].problemLink %>', '_blank')"
+                >
+                  <%= qns[i].problemName %>
+                </td>
+                <td
+                  onClick="window.open('<%= qns[i].problemLink %>', '_blank')"
+                >
+                  <% if(qns[i].verdict === 2) { %> AC <% } else
+                  if(qns[i].verdict === 1) { %> WA <% } else { %> - <% } %>
+                </td>
+                <td>
+                  <form action="/delete" method="POST" id="trow-delete">
+                    <input type="hidden" name="handle" value="<%= handle %>" />
+                    <input type="hidden" name="_id" value="<%= qns[i]._id %>" />
+                    <button
+                      id="trow-delete-button"
+                      class="btn btn-sm btn-secondary"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+
+              <% } %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <p>No Problems Added</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
