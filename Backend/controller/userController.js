@@ -148,10 +148,31 @@ const login = (req, res) => {
     .catch((err) => console.log(err.message));
 };
 
+//new Functions
+const fromdb_userlist = (req, res) => {
+  const handle = req.params.handle;
+  //Get all problems saved by a user from usersDB
+  User.find({ handle })
+    .then((results) => {
+      // create userlist
+      const userlist = results.map((result) => {
+        return {
+          problemName: result.problemName,
+          problemLink: result.problemLink,
+        };
+      });
+
+      res.send(JSON.stringify(userlist));
+    })
+    .catch((err) => res.status(404).send(JSON.stringify(err.message)));
+};
+
 module.exports = {
   home,
   userList,
   userList_add,
   userList_delete,
   login,
+  //new exports
+  fromdb_userlist,
 };
