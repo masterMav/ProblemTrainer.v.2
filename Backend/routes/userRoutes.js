@@ -10,6 +10,7 @@ router.post("/delete", userController.userList_delete);
 router.post("/login", userController.login);
 
 //New routes
-router.get("/fromdb/userlist/:handle", userController.fromdb_userlist);
+router.get("/api/userlist/:handle", userController.api_userlist);
+router.post("/api/add", userController.api_add);
 
 module.exports = router;

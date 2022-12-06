@@ -6,11 +6,12 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const handle = "manav_kp";
-  const url = `http://localhost:5000/fromdb/userlist/${handle}`;
+  const url = `http://localhost:5000/api/userlist/${handle}`;
 
   //Get's Raw List without verdict's from DB
+  const abortCont = new AbortController();
   const loadList = () => {
-    fetch(url)
+    fetch(url, { signal: abortCont.signal })
       .then((res) => {
         // Invalid input
         if (!res.ok) throw Error("Database invoked error.");
@@ -40,6 +41,7 @@ const Dashboard = () => {
   //Get problem's saved by user without verdict's from DB
   useEffect(() => {
     loadList();
+    return () => abortCont.abort();
   }, []);
 
   return (

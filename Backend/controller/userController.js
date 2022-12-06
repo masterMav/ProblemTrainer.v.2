@@ -148,8 +148,8 @@ const login = (req, res) => {
     .catch((err) => console.log(err.message));
 };
 
-//new Functions
-const fromdb_userlist = (req, res) => {
+//new API endpoints
+const api_userlist = (req, res) => {
   const handle = req.params.handle;
   //Get all problems saved by a user from usersDB
   User.find({ handle })
@@ -167,6 +167,64 @@ const fromdb_userlist = (req, res) => {
     .catch((err) => res.status(404).send(JSON.stringify(err.message)));
 };
 
+const api_add = async (req, res) => {
+  const handle = req.body.handle,
+    contestId = req.body.contestId,
+    index = req.body.index;
+
+  // Search problemDB
+  Problem.findOne({ contestId, index })
+    .then((result) => {
+      if (result === null) {
+        //Error Problem not found in problemDB
+        res.statusMessage =
+          "Problem not found in Problems Database wait for updation.";
+        res.status(422).end();
+      } else {
+        //Search userDB
+        const str = `${index}. ${result.name}`;
+        User.findOne({ handle, problemName: str })
+          .then((result) => {
+            if (result === null) {
+              // Save in userDB
+              const entry = new User({
+                handle,
+                problemName: str,
+                problemLink: `https://codeforces.com/contest/${contestId}/problem/${index}`,
+              });
+
+              entry
+                .save()
+                .then((result) =>
+                  res.send(
+                    JSON.stringify({
+                      problemName: str,
+                      problemLink: `https://codeforces.com/contest/${contestId}/problem/${index}`,
+                    })
+                  )
+                )
+                .catch((err) => {
+                  res.statusMessage = err.message;
+                  res.status(500).end();
+                });
+            } else {
+              //Error Problem Already Exists in userDB
+              res.statusMessage = "Problem already present in the list.";
+              res.status(422).end();
+            }
+          })
+          .catch((err) => {
+            res.statusMessage = err.message;
+            res.status(500).end();
+          });
+      }
+    })
+    .catch((err) => {
+      res.statusMessage = err.message;
+      res.status(500).end();
+    });
+};
+
 module.exports = {
   home,
   userList,
@@ -174,5 +232,6 @@ module.exports = {
   userList_delete,
   login,
   //new exports
-  fromdb_userlist,
+  api_userlist,
+  api_add,
 };

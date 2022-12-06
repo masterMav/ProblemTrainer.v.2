@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Test = () => {
-  const [tmp, setTmp] = useState("");
+  const [tmp, setTmp] = useState([
+    { k1: "v1", k2: "v2" },
+    { k1: "v3", k2: "v4" },
+  ]);
 
-  let intervalID;
-  useEffect(() => {
-    async function init() {
-      await setTimeout(() => setTmp(0), 1000);
-
-      intervalID = setInterval(() => {
-        console.log("Every 2 sec.");
-        setTmp((prvsTmp) => prvsTmp + 1);
-      }, 2000);
-    }
-    init();
-
-    return () => clearInterval(intervalID);
-  }, []);
+  const handleClick = () => {
+    setTmp((tmp) => [...tmp, { k1: "v5", k2: "v6" }]);
+  };
 
   return (
     <div className="container">
       <h2>Testing</h2>
-      <p>{tmp}</p>
+      <button onClick={handleClick}>Button</button>
+      {tmp.map((i) => (
+        <div key={i.k1}>
+          {i.k1} & {i.k2}
+        </div>
+      ))}
     </div>
   );
 };
