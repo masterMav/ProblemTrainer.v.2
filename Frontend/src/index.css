@@ -29,3 +29,26 @@ code {
 .trow-2:hover {
   background-color: #3ed625;
 }
+
+/* Table */
+.myTable {
+  width: 65%;
+  margin: auto;
+}
+
+/* Problem Code From */
+.problemCodeForm {
+  width: 40%;
+  margin: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .myTable {
+    width: 98%;
+    margin: auto;
+  }
+  .problemCodeForm {
+    width: 90%;
+    margin: auto;
+  }
+}

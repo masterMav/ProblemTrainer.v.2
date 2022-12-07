@@ -46,8 +46,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="container">
-      <h2 className="text-center">Dashboard</h2>
+    <div className="nothing">
       {list && <ProblemList list={list} />}
       {error && <p className="badge bg-danger">{error}</p>}
       {loading && <p>Loading....</p>}

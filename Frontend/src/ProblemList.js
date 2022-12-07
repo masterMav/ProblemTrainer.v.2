@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ProblemList = ({ list }) => {
@@ -55,7 +54,7 @@ const ProblemList = ({ list }) => {
           setFinalList(listWithVerdict);
         })
         .catch((err) => console.log(err.message));
-    }, 5000);
+    }, 30000);
 
     //stop interval on dismount & abort fetch.
     return () => {
@@ -116,49 +115,65 @@ const ProblemList = ({ list }) => {
       .catch((err) => setError(err.response.statusText));
   };
 
+  // Table row will redirect to problemLink by this function
   const gotoProblemLink = (problemLink) => {
     window.open(problemLink, "_blank");
   };
 
   return (
-    <div className="container">
-      {/* INPUT FORM */}
-      <form className="mt-5 problemLink-form" onSubmit={handleSubmit}>
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter ContestId_index of CF problem"
-            required
-            value={problemCode}
-            onChange={(e) => {
-              setProblemCode(e.target.value);
-              setError("");
-            }}
-          />
-          <button
-            className="btn btn-outline-secondary"
-            type="submit"
-            id="button-addon2"
+    <div className="nothing">
+      {/* Black BG */}
+      <div className="bg-dark text-secondary px-4 py-4 text-center">
+        <div className="pb-5">
+          <h5 className="display-6 fw-bold text-white mb-5">
+            Enter ProblemCode.
+          </h5>
+          <form
+            className="col-lg-6 mx-auto problemCodeForm"
+            onSubmit={handleSubmit}
           >
-            Add
-          </button>
+            <input
+              className="form-control mb-3"
+              placeholder="Enter ContestId_index of CF problem"
+              type="text"
+              required
+              value={problemCode}
+              onChange={(e) => {
+                setProblemCode(e.target.value);
+                setError("");
+              }}
+            />
+            <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <button
+                className="btn btn-outline-info btn-md px-4 me-sm-3 fw-bold"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+          {error && <p className="mt-4 badge bg-danger">{error}</p>}
         </div>
-      </form>
-      {error && <p className="badge bg-danger">{error}</p>}
+      </div>
       {/* LIST */}
-      <table className="table">
+      <table className="mt-5 table text-center myTable shadow">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Problem Name</th>
-            <th scope="col">Verdict</th>
-            <th scope="col"></th>
+            <th scope="col" width="5%">
+              #
+            </th>
+            <th scope="col" width="80%">
+              Problem Name
+            </th>
+            <th scope="col" width="7%">
+              Verdict
+            </th>
+            <th scope="col" width="8%"></th>
           </tr>
         </thead>
         <tbody>
           {finalList.map((qn, counter) => (
-            <tr className={"trow-" + qn.verdict}>
+            <tr key={qn._id} className={"trow-" + qn.verdict}>
               <th scope="row" onClick={() => gotoProblemLink(qn.problemLink)}>
                 {1 + counter}
               </th>
@@ -174,7 +189,9 @@ const ProblemList = ({ list }) => {
               {qn.verdict === 2 && (
                 <td onClick={() => gotoProblemLink(qn.problemLink)}>AC</td>
               )}
-              <td onClick={() => deleteClick(qn._id)}>Delete</td>
+              <td onClick={() => deleteClick(qn._id)}>
+                <i className="bi-x-lg"></i>
+              </td>
             </tr>
           ))}
         </tbody>
