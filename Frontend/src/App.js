@@ -3,6 +3,7 @@ import Home from "./Home";
 import Navbar from "./Navbar";
 import Dashboard from "./Dashboard";
 import Test from "./Test";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Test />
           </Route>
         </Switch>
+        <Footer />
       </div>
     </Router>
   );
