@@ -21,6 +21,7 @@ const Dashboard = () => {
         // Create Problem list
         let newList = data.map((i) => {
           return {
+            _id: i._id,
             problemName: i.problemName,
             problemLink: i.problemLink,
             verdict: 0,

@@ -157,6 +157,7 @@ const api_userlist = (req, res) => {
       // create userlist
       const userlist = results.map((result) => {
         return {
+          _id: result._id,
           problemName: result.problemName,
           problemLink: result.problemLink,
         };
@@ -167,7 +168,7 @@ const api_userlist = (req, res) => {
     .catch((err) => res.status(404).send(JSON.stringify(err.message)));
 };
 
-const api_add = async (req, res) => {
+const api_add = (req, res) => {
   const handle = req.body.handle,
     contestId = req.body.contestId,
     index = req.body.index;
@@ -177,8 +178,7 @@ const api_add = async (req, res) => {
     .then((result) => {
       if (result === null) {
         //Error Problem not found in problemDB
-        res.statusMessage =
-          "Problem not found in Problems Database wait for updation.";
+        res.statusMessage = "Problem not found in Problems Database.";
         res.status(422).end();
       } else {
         //Search userDB
@@ -198,6 +198,7 @@ const api_add = async (req, res) => {
                 .then((result) =>
                   res.send(
                     JSON.stringify({
+                      _id: result._id,
                       problemName: str,
                       problemLink: `https://codeforces.com/contest/${contestId}/problem/${index}`,
                     })
@@ -225,6 +226,17 @@ const api_add = async (req, res) => {
     });
 };
 
+const api_delete = (req, res) => {
+  User.findByIdAndDelete(req.params._id)
+    .then((result) => {
+      res.send("Successful Deletion.");
+    })
+    .catch((err) => {
+      res.statusMessage = err.message;
+      res.status(500).end();
+    });
+};
+
 module.exports = {
   home,
   userList,
@@ -234,4 +246,5 @@ module.exports = {
   //new exports
   api_userlist,
   api_add,
+  api_delete,
 };

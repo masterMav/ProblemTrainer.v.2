@@ -12,5 +12,6 @@ router.post("/login", userController.login);
 //New routes
 router.get("/api/userlist/:handle", userController.api_userlist);
 router.post("/api/add", userController.api_add);
+router.delete("/api/delete/:_id", userController.api_delete);
 
 module.exports = router;

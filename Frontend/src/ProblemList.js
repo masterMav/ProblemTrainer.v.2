@@ -38,13 +38,14 @@ const ProblemList = ({ list }) => {
           });
 
           //now compare them to saved problems
-          let listWithVerdict = finalList.map((listItem) => {
+          const listWithVerdict = finalList.map((listItem) => {
             let updatedVerdict;
             if (subMap.get(listItem.problemName) === undefined)
               updatedVerdict = 0;
             else updatedVerdict = subMap.get(listItem.problemName);
 
             return {
+              _id: listItem._id,
               problemName: listItem.problemName,
               problemLink: listItem.problemLink,
               verdict: updatedVerdict,
@@ -84,16 +85,34 @@ const ProblemList = ({ list }) => {
           setFinalList((prvs) => [
             ...prvs,
             {
+              _id: res.data._id,
               problemName: res.data.problemName,
               problemLink: res.data.problemLink,
               verdict: 0,
             },
           ]);
-          //Change listChanged state to render it here.
+          //Change listChanged state to update useEffect as well.
           setListChanged(!listChanged);
         })
         .catch((err) => setError(err.response.statusText));
     }
+  };
+
+  //DELETE FROM userDB & update finalList here.
+  const deleteClick = (_id) => {
+    axios
+      .delete(`http://localhost:5000/api/delete/${_id}`)
+      .then((res) => {
+        // Successfully removed from userDB now update the finalList here.
+        const updatedList = finalList.filter((listItem) => {
+          return listItem._id !== _id;
+        });
+
+        setFinalList(updatedList);
+        //Change listChanged state to update useEffect as well.
+        setListChanged(!listChanged);
+      })
+      .catch((err) => setError(err.response.statusText));
   };
 
   return (
@@ -129,16 +148,18 @@ const ProblemList = ({ list }) => {
             <th scope="col">#</th>
             <th scope="col">Problem Name</th>
             <th scope="col">Verdict</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           {finalList.map((qn, counter) => (
-            <tr key={qn.problemName} className={"trow-" + qn.verdict}>
+            <tr key={qn._id} className={"trow-" + qn.verdict}>
               <th scope="row">{1 + counter}</th>
               <td>{qn.problemName}</td>
               {qn.verdict === 0 && <td>NA</td>}
               {qn.verdict === 1 && <td>WA</td>}
               {qn.verdict === 2 && <td>AC</td>}
+              <td onClick={() => deleteClick(qn._id)}>Delete</td>
             </tr>
           ))}
         </tbody>
