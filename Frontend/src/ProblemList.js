@@ -123,18 +123,22 @@ const ProblemList = ({ list }) => {
   return (
     <div className="nothing">
       {/* Black BG */}
-      <div className="bg-dark text-secondary px-4 py-4 text-center">
+      <div className="bg-dark text-secondary p-4 text-center">
         <div className="pb-5">
-          <h5 className="display-6 fw-bold text-white mb-5">
-            Enter ProblemCode.
-          </h5>
+          <h5 className="display-6 fw-bold text-white">Welcome {handle}</h5>
+          <p className="fs-5">
+            Simply paste the Problem Code which is made by the contestID (Eg:
+            1760, 80, etc.) & Problem Index (Eg: A, B, D1).
+            <br />
+            Use this format contestID_problemIndex.
+          </p>
           <form
             className="col-lg-6 mx-auto problemCodeForm"
             onSubmit={handleSubmit}
           >
             <input
               className="form-control mb-3"
-              placeholder="Enter ContestId_index of CF problem"
+              placeholder="Eg: 1760_A"
               type="text"
               required
               value={problemCode}
