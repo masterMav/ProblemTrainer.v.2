@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ProblemList = ({ list }) => {
@@ -115,6 +116,10 @@ const ProblemList = ({ list }) => {
       .catch((err) => setError(err.response.statusText));
   };
 
+  const gotoProblemLink = (problemLink) => {
+    window.open(problemLink, "_blank");
+  };
+
   return (
     <div className="container">
       {/* INPUT FORM */}
@@ -153,12 +158,22 @@ const ProblemList = ({ list }) => {
         </thead>
         <tbody>
           {finalList.map((qn, counter) => (
-            <tr key={qn._id} className={"trow-" + qn.verdict}>
-              <th scope="row">{1 + counter}</th>
-              <td>{qn.problemName}</td>
-              {qn.verdict === 0 && <td>NA</td>}
-              {qn.verdict === 1 && <td>WA</td>}
-              {qn.verdict === 2 && <td>AC</td>}
+            <tr className={"trow-" + qn.verdict}>
+              <th scope="row" onClick={() => gotoProblemLink(qn.problemLink)}>
+                {1 + counter}
+              </th>
+              <td onClick={() => gotoProblemLink(qn.problemLink)}>
+                {qn.problemName}
+              </td>
+              {qn.verdict === 0 && (
+                <td onClick={() => gotoProblemLink(qn.problemLink)}>NA</td>
+              )}
+              {qn.verdict === 1 && (
+                <td onClick={() => gotoProblemLink(qn.problemLink)}>WA</td>
+              )}
+              {qn.verdict === 2 && (
+                <td onClick={() => gotoProblemLink(qn.problemLink)}>AC</td>
+              )}
               <td onClick={() => deleteClick(qn._id)}>Delete</td>
             </tr>
           ))}

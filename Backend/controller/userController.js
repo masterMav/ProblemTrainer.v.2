@@ -199,8 +199,8 @@ const api_add = (req, res) => {
                   res.send(
                     JSON.stringify({
                       _id: result._id,
-                      problemName: str,
-                      problemLink: `https://codeforces.com/contest/${contestId}/problem/${index}`,
+                      problemName: result.problemName,
+                      problemLink: result.problemLink,
                     })
                   )
                 )
