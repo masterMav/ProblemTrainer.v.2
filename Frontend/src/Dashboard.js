@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ProblemList from "./ProblemList";
 
 const Dashboard = () => {
   const [list, setList] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const handle = "manav_kp";
+  const location = useLocation();
+  const handle = location.state;
   const url = `http://localhost:5000/api/userlist/${handle}`;
 
   //Get's Raw List without verdict's from DB
@@ -47,7 +49,7 @@ const Dashboard = () => {
 
   return (
     <div className="nothing">
-      {list && <ProblemList list={list} />}
+      {list && <ProblemList list={list} handle={handle} />}
       {error && <p className="badge bg-danger">{error}</p>}
       {loading && <p>Loading....</p>}
     </div>

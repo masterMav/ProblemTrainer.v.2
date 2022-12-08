@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const ProblemList = ({ list }) => {
+const ProblemList = ({ list, handle }) => {
   const [finalList, setFinalList] = useState(list);
   const [listChanged, setListChanged] = useState(false);
   const [problemCode, setProblemCode] = useState("");
   const [error, setError] = useState("");
-  const handle = "manav_kp";
 
   //Get user submission verdict's for saved problem's & keep updating every 30sec.
   //For that it compares all user subs & finalList
@@ -123,10 +122,12 @@ const ProblemList = ({ list }) => {
   return (
     <div className="nothing">
       {/* Black BG */}
-      <div className="bg-dark text-secondary p-4 text-center">
+      <div className="bg-dark text-secondary px-4 pt-4 text-center">
         <div className="pb-5">
-          <h5 className="display-6 fw-bold text-white">Welcome {handle}</h5>
-          <p className="fs-5">
+          <h5 className="display-6 fw-bold text-white mb-3">
+            Welcome {handle}
+          </h5>
+          <p className="fs-5 my-4">
             Simply paste the Problem Code which is made by the contestID (Eg:
             1760, 80, etc.) & Problem Index (Eg: A, B, D1).
             <br />
