@@ -9,19 +9,21 @@ function App() {
   return (
     <Router>
       <div className="nothing">
-        <Navbar />
         <Switch>
           <Route exact path="/">
+            <Navbar />
             <Home />
+            <Footer />
           </Route>
           <Route path="/dashboard">
+            <Navbar />
             <Dashboard />
+            <Footer />
           </Route>
           <Route path="/test">
             <Test />
           </Route>
         </Switch>
-        <Footer />
       </div>
     </Router>
   );

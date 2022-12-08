@@ -42,6 +42,11 @@ code {
   margin: auto;
 }
 
+.myHeading {
+  width: 50%;
+  margin: auto;
+}
+
 @media only screen and (max-width: 600px) {
   .myTable {
     width: 98%;
@@ -49,6 +54,10 @@ code {
   }
   .problemCodeForm {
     width: 90%;
+    margin: auto;
+  }
+  .myHeading {
+    width: 100%;
     margin: auto;
   }
 }

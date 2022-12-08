@@ -13,7 +13,7 @@ const Home = () => {
       .then((data) =>
         history.push({
           pathname: "/dashboard",
-          state: handle,
+          state: data.data.result[0].handle,
         })
       )
       .catch((error) => {

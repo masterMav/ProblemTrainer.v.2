@@ -8,7 +8,7 @@ const ProblemList = ({ list, handle }) => {
   const [error, setError] = useState("");
   const abortCont = new AbortController();
 
-  //For updating verdicts it compares all user subs & finalList
+  // For updating verdicts it compares all user subs & finalList
   const updateVerdict = () => {
     fetch(`https://codeforces.com/api/user.status?handle=${handle}&lang=en`, {
       signal: abortCont.signal,
@@ -19,7 +19,7 @@ const ProblemList = ({ list, handle }) => {
       })
       .then((data) => {
         console.log("fetched successfully");
-        //mark all submitted problems
+        // mark all submitted problems
         const subMap = new Map();
         data.result.forEach((i) => {
           const str = `${i.problem.index}. ${i.problem.name}`;
@@ -33,7 +33,7 @@ const ProblemList = ({ list, handle }) => {
           subMap.set(str, Math.max(newVerdict, prvsVerdict));
         });
 
-        //now compare them to saved problems
+        // now compare them to saved problems
         const listWithVerdict = finalList.map((listItem) => {
           let updatedVerdict;
           if (subMap.get(listItem.problemName) === undefined)
@@ -78,7 +78,7 @@ const ProblemList = ({ list, handle }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //Check problemCode format errors
+    // Check problemCode format errors
     const codeArray = problemCode.split("_");
     if (codeArray.length !== 2 || codeArray[0] === "" || codeArray[1] === "") {
       setError("Please enter correct Problem Code.");
@@ -102,14 +102,14 @@ const ProblemList = ({ list, handle }) => {
               verdict: 0,
             },
           ]);
-          //Change listChanged state to update useEffect as well.
+          // Change listChanged state to update useEffect as well.
           setListChanged(!listChanged);
         })
         .catch((err) => setError(err.response.statusText));
     }
   };
 
-  //DELETE FROM userDB & update finalList here.
+  // DELETE FROM userDB & update finalList here.
   const deleteClick = (_id) => {
     axios
       .delete(`http://localhost:5000/api/delete/${_id}`)
@@ -120,7 +120,7 @@ const ProblemList = ({ list, handle }) => {
         });
 
         setFinalList(updatedList);
-        //Change listChanged state to update useEffect as well.
+        // Change listChanged state to update useEffect as well.
         setListChanged(!listChanged);
       })
       .catch((err) => setError(err.response.statusText));
@@ -134,14 +134,15 @@ const ProblemList = ({ list, handle }) => {
   return (
     <div className="nothing">
       {/* Black BG */}
-      <div className="bg-dark text-secondary px-4 pt-4 text-center">
-        <div className="pb-5">
+      <div className="bg-dark text-secondary px-4 pt-md-0 pt-4 text-center">
+        <div className="pb-md-5 pb-2">
           <h5 className="display-6 fw-bold text-white mb-3">
             Welcome {handle}
           </h5>
           <p className="fs-5 my-4">
-            Simply paste the Problem Code which is made by the contestID (Eg:
-            1760, 80, etc.) & Problem Index (Eg: A, B, D1).
+            Simply paste the Problem Code which is made by the:
+            <br />
+            contestID (Eg: 1760, 80, etc.) & Problem Index (Eg: A, B, D1).
             <br />
             Use this format contestID_problemIndex.
           </p>

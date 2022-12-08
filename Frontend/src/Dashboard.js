@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import ProblemList from "./ProblemList";
 
 const Dashboard = () => {
+  document.body.style.backgroundColor = "#ffffff";
   const [list, setList] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
