@@ -7,24 +7,6 @@ const Navbar = () => {
         <Link to="/" className="navbar-brand">
           <h2 className="m-0 p-0 pt-1">Problem Trainer</h2>
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navmenu"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navmenu">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item me-3">
-              <Link to="/test" className="nav-link">
-                Test
-              </Link>
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
   );

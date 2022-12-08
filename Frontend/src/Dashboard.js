@@ -4,6 +4,7 @@ import ProblemList from "./ProblemList";
 
 const Dashboard = () => {
   document.body.style.backgroundColor = "#ffffff";
+  document.body.classList.remove("d-flex");
   const [list, setList] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);

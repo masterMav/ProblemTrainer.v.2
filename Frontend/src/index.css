@@ -43,6 +43,12 @@ code {
 }
 
 .myHeading {
+  height: 100vh;
+  width: 50%;
+  margin: auto;
+}
+
+.headForm {
   width: 50%;
   margin: auto;
 }
@@ -58,6 +64,10 @@ code {
   }
   .myHeading {
     width: 100%;
+    margin: auto;
+  }
+  .headForm {
+    width: 90%;
     margin: auto;
   }
 }
