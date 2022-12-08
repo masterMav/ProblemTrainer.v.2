@@ -6,56 +6,68 @@ const ProblemList = ({ list, handle }) => {
   const [listChanged, setListChanged] = useState(false);
   const [problemCode, setProblemCode] = useState("");
   const [error, setError] = useState("");
+  const abortCont = new AbortController();
 
-  //Get user submission verdict's for saved problem's & keep updating every 30sec.
-  //For that it compares all user subs & finalList
-  useEffect(() => {
-    const abortCont = new AbortController();
-    //Checking for updates & processing verdict's
-    const intervalID = setInterval(() => {
-      fetch(`https://codeforces.com/api/user.status?handle=${handle}&lang=en`, {
-        signal: abortCont.signal,
+  //For updating verdicts it compares all user subs & finalList
+  const updateVerdict = () => {
+    fetch(`https://codeforces.com/api/user.status?handle=${handle}&lang=en`, {
+      signal: abortCont.signal,
+    })
+      .then((res) => {
+        if (!res.ok) throw Error("CF API ERROR");
+        return res.json();
       })
-        .then((res) => {
-          if (!res.ok) throw Error("CF API ERROR");
-          return res.json();
-        })
-        .then((data) => {
-          console.log("fetched successfully");
-          //mark all submitted problems
-          const subMap = new Map();
-          data.result.forEach((i) => {
-            const str = `${i.problem.index}. ${i.problem.name}`;
-            let prvsVerdict, newVerdict;
-            if (subMap.get(str) === undefined) prvsVerdict = 0;
-            else prvsVerdict = subMap.get(str);
+      .then((data) => {
+        console.log("fetched successfully");
+        //mark all submitted problems
+        const subMap = new Map();
+        data.result.forEach((i) => {
+          const str = `${i.problem.index}. ${i.problem.name}`;
+          let prvsVerdict, newVerdict;
+          if (subMap.get(str) === undefined) prvsVerdict = 0;
+          else prvsVerdict = subMap.get(str);
 
-            if (i.verdict === "OK") newVerdict = 2;
-            else newVerdict = 1;
+          if (i.verdict === "OK") newVerdict = 2;
+          else newVerdict = 1;
 
-            subMap.set(str, Math.max(newVerdict, prvsVerdict));
-          });
+          subMap.set(str, Math.max(newVerdict, prvsVerdict));
+        });
 
-          //now compare them to saved problems
-          const listWithVerdict = finalList.map((listItem) => {
-            let updatedVerdict;
-            if (subMap.get(listItem.problemName) === undefined)
-              updatedVerdict = 0;
-            else updatedVerdict = subMap.get(listItem.problemName);
+        //now compare them to saved problems
+        const listWithVerdict = finalList.map((listItem) => {
+          let updatedVerdict;
+          if (subMap.get(listItem.problemName) === undefined)
+            updatedVerdict = 0;
+          else updatedVerdict = subMap.get(listItem.problemName);
 
-            return {
-              _id: listItem._id,
-              problemName: listItem.problemName,
-              problemLink: listItem.problemLink,
-              verdict: updatedVerdict,
-            };
-          });
-          setFinalList(listWithVerdict);
-        })
-        .catch((err) => console.log(err.message));
-    }, 30000);
+          return {
+            _id: listItem._id,
+            problemName: listItem.problemName,
+            problemLink: listItem.problemLink,
+            verdict: updatedVerdict,
+          };
+        });
+        setFinalList(listWithVerdict);
+      })
+      .catch((err) => console.log(err.message));
+  };
 
-    //stop interval on dismount & abort fetch.
+  // Only at the start
+  useEffect(() => {
+    updateVerdict();
+    return () => {
+      abortCont.abort();
+    };
+  }, []);
+
+  // Get user submission verdict's for saved problem's & keep updating every 10sec.
+  useEffect(() => {
+    // Update verdict every 10sec.
+    const intervalID = setInterval(() => {
+      updateVerdict();
+    }, 10000);
+
+    // Stop interval on dismount & abort fetch.
     return () => {
       clearInterval(intervalID);
       abortCont.abort();

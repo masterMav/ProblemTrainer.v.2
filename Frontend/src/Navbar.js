@@ -24,11 +24,6 @@ const Navbar = () => {
                   Test
                 </Link>
               </li>
-              <li className="nav-item me-3">
-                <Link to="/dashboard" className="nav-link">
-                  Dashboard
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
