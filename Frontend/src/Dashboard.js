@@ -11,7 +11,7 @@ const Dashboard = () => {
   const location = useLocation();
   const handle = location.state;
   // #
-  const url = `http://localhost:5000/api/userlist/${handle}`;
+  const url = `https://problem-trainer-v-2.vercel.app/api/userlist/${handle}`;
 
   //Get's Raw List without verdict's from DB
   const abortCont = new AbortController();
