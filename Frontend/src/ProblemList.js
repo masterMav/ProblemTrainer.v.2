@@ -105,7 +105,9 @@ const ProblemList = ({ list, handle }) => {
           // Change listChanged state to update useEffect as well.
           setListChanged(!listChanged);
         })
-        .catch((err) => setError(err.response.statusText));
+        .catch((err) => {
+          setError(err.response.statusText);
+        });
     }
   };
 
@@ -123,7 +125,9 @@ const ProblemList = ({ list, handle }) => {
         // Change listChanged state to update useEffect as well.
         setListChanged(!listChanged);
       })
-      .catch((err) => setError(err.response.statusText));
+      .catch((err) => {
+        setError(err.response.statusText);
+      });
   };
 
   // Table row will redirect to problemLink by this function
