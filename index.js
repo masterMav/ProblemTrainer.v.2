@@ -35,7 +35,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://bucolic-clafoutis-d685a3.netlify.app/",
   })
 );
 
