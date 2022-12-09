@@ -90,7 +90,7 @@ const ProblemList = ({ list, handle }) => {
         index: codeArray[1],
       };
       axios
-        .post(`http://localhost:5000/api/add`, postData)
+        .post(`http://localhost:5000/api/add`, postData) // #
         .then((res) => {
           // Successfully added to userDB now update the finalList here.
           setFinalList((prvs) => [
@@ -112,7 +112,7 @@ const ProblemList = ({ list, handle }) => {
   // DELETE FROM userDB & update finalList here.
   const deleteClick = (_id) => {
     axios
-      .delete(`http://localhost:5000/api/delete/${_id}`)
+      .delete(`http://localhost:5000/api/delete/${_id}`) // #
       .then((res) => {
         // Successfully removed from userDB now update the finalList here.
         const updatedList = finalList.filter((listItem) => {

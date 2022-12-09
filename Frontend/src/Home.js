@@ -79,7 +79,8 @@ const Home = () => {
           </div>
         </div>
       </nav>
-      <main className="px-3 text-white text-center mb-5">
+      <main className="px-3 text-white text-center mb-5 pb-5">
+        <h1 className="fw-bold">Solve Better</h1>
         <p className="lead">
           Simply paste the Problem Code of the problem you want to solve. The
           Problem Verdict's will be updated automatically using the{" "}
