@@ -54,7 +54,7 @@ const Home = () => {
                 <Link
                   className="nav-link active text-white h6 mt-md-2"
                   to={{
-                    pathname: "https://github.com/masterMav/ProblemTrainer",
+                    pathname: "https://github.com/masterMav/ProblemTrainer.v.2",
                   }}
                   target="_blank"
                 >

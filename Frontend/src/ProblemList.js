@@ -18,7 +18,6 @@ const ProblemList = ({ list, handle }) => {
         return res.json();
       })
       .then((data) => {
-        console.log("fetched successfully");
         // mark all submitted problems
         const subMap = new Map();
         data.result.forEach((i) => {
